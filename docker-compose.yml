@@ -1,0 +1,31 @@
+version: '3.5'
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - 8080:80
+    container_name: tbas-app
+    networks:
+      backend:
+        aliases:
+          - app
+  database:
+    image: mysql:5.7
+    volumes:
+      - ./db:/var/lib/mysql
+    container_name: tbas-database
+    env_file:
+      - .env
+    ports:
+      - 3307:3306
+    networks:
+      backend:
+        aliases:
+          - db
+
+networks:
+  backend:
+    name: backend-network
